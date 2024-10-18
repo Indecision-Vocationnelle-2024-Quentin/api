@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const question_MonChoixController = require('../controller/questionnaire_MonChoixController.js');
-const middleware = require('../middleware/auth.js');
+const question_MonChoixController = require('../controllers/questionnaire_MonChoixController.js');
+const middleware = require('../middlewares/auth.js');
 
 /**
  * @swagger

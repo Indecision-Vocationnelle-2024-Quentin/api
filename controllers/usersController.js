@@ -2,7 +2,7 @@ const mongooseUser = require('../models/modeleUser');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const jwtUtil = require('../util/jwtUtil');
+const jwtUtil = require('../utils/jwtUtil');
 
 
 var express = require('express');

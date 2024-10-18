@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const question_MoyenReussirController = require('../controller/questionnaire_MoyenReussirController.js');
-const middleware = require('../middleware/auth.js');
+const question_MoyenReussirController = require('../controllers/questionnaire_MoyenReussirController.js');
+const middleware = require('../middlewares/auth.js');
 
 /**
  * @swagger

@@ -9,7 +9,7 @@
 //Aller chercher l'application TOKEN valide en utilisant l'action POST getAppToken
 //:3001/users/login
 
-@applicationTOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6IjIzNDAyMzBAY2VnZXByZGwuY2EiLCJpYXQiOjE3MjkyNzcxOTd9.q9gHkUgAR1qMr1VB0oaaj_4a_hmbKJpjehFlgaajGAU
+@applicationTOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmFtZSI6IjIzNDAyMzBAY2VnZXByZGwuY2EiLCJpYXQiOjE3MjkyODAzOTJ9.GJRV82S_tR-dTLaxEcWSZPZ6Sl7jTU6rWH5vtwXLyec
 @BearerTOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsYWluLmR1YmVAY2VnZXByZGwuY2EiLCJpYXQiOjE3MjkyNzc0MzMsImV4cCI6MTcyOTI4NDYzM30.sg708_jeoEA_L_Lkb7lNhSRbuHdAf8OnPeN3CsKzNOQ
 @BearerRefreshTOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoidXNlciIsImVtYWlsIjoiYWxhaW4uZHViZUBjZWdlcHJkbC5jYSIsImlhdCI6MTcwNzkzNzkwMywiZXhwIjoxNzA4NTQyNzAzfQ.M6aqOKrHBkZRyA0MOZtp1XnrxWOQTtwk7A9gDNiu8t0
 
@@ -35,10 +35,10 @@ Content-Type:{{contentType}}
 
 {
     "appKey": "{{applicationTOKEN}}",
-    "nom": "Dube",
-    "prenom": "Alain",
-    "email": "alain.dube@cegeprdl.ca",
-    "password": "EcoleDuWeb@Secure"
+    "nom": "Jean",
+    "prenom": "Paul",
+    "email": "2312345@cegeprdl.ca",
+    "password": "LaVie123"
   }
 
 ###
