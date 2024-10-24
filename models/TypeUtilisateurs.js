@@ -11,7 +11,8 @@ TypeUtilisateurs.init({
     },
     Type: {
         type: DataTypes.STRING(75),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Description: {
         type: DataTypes.STRING(100),

@@ -25,7 +25,13 @@ ActionUtilisateur.init({
 }, {
     sequelize,
     modelName: 'ActionUtilisateur',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+        {
+            unique: true,
+            fields:['IdAction','IdUtilisateur']
+        }
+    ]
 });
 
 module.exports = ActionUtilisateur;

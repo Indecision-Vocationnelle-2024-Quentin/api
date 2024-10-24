@@ -25,7 +25,13 @@ RessourceUtilisateur.init({
 }, {
     sequelize,
     modelName: 'RessourceUtilisateur',
-    timestamps: false
+    timestamps: false,
+    indexes:[
+        {
+            unique: true, 
+            fields: ['IdRessource','IdUtilisateur']
+        }
+    ]
 });
 
 module.exports = RessourceUtilisateur;

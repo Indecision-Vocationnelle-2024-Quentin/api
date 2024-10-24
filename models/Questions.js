@@ -20,7 +20,8 @@ Questions.init({
     },
     Question: {
         type: DataTypes.STRING(500),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Exemple: {
         type: DataTypes.STRING(450),
@@ -30,6 +31,10 @@ Questions.init({
     sequelize,
     modelName: 'Questions',
     timestamps: false
+});
+Questions.belongsToMany(Questionnaires, {
+    through: 'QuestionQuestionnaire',
+    foreignKey: 'IdQuestion'
 });
 
 module.exports = Questions;

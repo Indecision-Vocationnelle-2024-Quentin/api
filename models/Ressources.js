@@ -16,7 +16,8 @@ Ressources.init({
     },
     Ressource: {
         type: DataTypes.STRING(400),
-        allowNull: false
+        allowNull: false,
+        unique : true
     }
 }, {
     sequelize,

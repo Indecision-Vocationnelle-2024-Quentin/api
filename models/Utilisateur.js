@@ -24,7 +24,8 @@ Utilisateur.init({
     },
     Courriel: {
         type: DataTypes.STRING(25),
-        allowNull: false
+        allowNull: false,
+        unique : true
     },
     MotDePasse: {
         type: DataTypes.STRING(255),

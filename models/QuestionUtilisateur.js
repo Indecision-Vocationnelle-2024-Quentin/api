@@ -25,7 +25,13 @@ QuestionUtilisateur.init({
 }, {
     sequelize,
     modelName: 'QuestionUtilisateur',
-    timestamps: false
+    timestamps: false,
+    indexes:[
+        {
+            unique: true,
+            fields: ['IdQuestion','IdUtilisateur']
+        }
+    ]
 });
 
 module.exports = QuestionUtilisateur;

@@ -16,7 +16,8 @@ Facteurs.init({
     },
     Nom: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Description: {
         type: DataTypes.STRING(150),

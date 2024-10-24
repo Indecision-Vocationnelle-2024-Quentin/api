@@ -16,7 +16,8 @@ Actions.init({
     },
     Action: {
         type: DataTypes.STRING(300),
-        allowNull: false
+        allowNull: false,
+        unique:true
     }
 }, {
     sequelize,

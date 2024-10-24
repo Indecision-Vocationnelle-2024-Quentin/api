@@ -21,7 +21,13 @@ RessourceQuestionnaire.init({
 }, {
     sequelize,
     modelName: 'RessourceQuestionnaire',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+        {
+            unique: true,
+            fields: ['IdRessource', 'IdQuestionnaire']
+        }
+    ]
 });
 
 module.exports = RessourceQuestionnaire;

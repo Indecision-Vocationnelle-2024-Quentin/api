@@ -21,7 +21,13 @@ ActionQuestionnaire.init({
 }, {
     sequelize,
     modelName: 'ActionQuestionnaire',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+        {
+            unique: true,
+            fields: ['IdAction', 'IdQuestionnaire']
+        }
+    ]
 });
 
 module.exports = ActionQuestionnaire;

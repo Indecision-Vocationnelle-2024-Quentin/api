@@ -16,7 +16,8 @@ Questionnaires.init({
     },
     Titre: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Description: {
         type: DataTypes.STRING(600),
@@ -27,5 +28,10 @@ Questionnaires.init({
     modelName: 'Questionnaires',
     timestamps: false
 });
+Questionnaires.belongsToMany(Questions, {
+    through: 'QuestionQuestionnaire',
+    foreignKey: 'IdQuestionnaire'
+});
+
 
 module.exports = Questionnaires;

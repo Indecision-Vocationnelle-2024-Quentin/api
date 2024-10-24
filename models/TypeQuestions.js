@@ -12,7 +12,8 @@ TypeQuestions.init({
     },
     Type: {
         type: DataTypes.STRING(25),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     Description: {
         type: DataTypes.STRING(100),

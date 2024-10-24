@@ -21,7 +21,12 @@ UtilisateurTypeUtilisateur.init({
 }, {
     sequelize,
     modelName: 'UtilisateurTypeUtilisateur',
-    timestamps: false
+    timestamps: false,
+    indexes:[
+        {
+            unique: ['IdTypeUtilisateur','IdUtilisateur']
+        }
+    ]
 });
 
 module.exports = UtilisateurTypeUtilisateur;
