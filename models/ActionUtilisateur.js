@@ -1,4 +1,3 @@
-// models/ActionUtilisateur.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 

@@ -1,37 +1,39 @@
-// models/Questionnaires.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 
-class Questionnaires extends Model {}
+class Question extends Model {}
 
-Questionnaires.init({
-    IdQuestionnaire: {
+Question.init({
+    IdQuestion: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    IdTypeQuestionnaire: {
+    IdTypeQuestion: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    Titre: {
-        type: DataTypes.STRING(100),
+    IdFacteur: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    Question: {
+        type: DataTypes.STRING(500),
         allowNull: false,
         unique: true
     },
-    Description: {
-        type: DataTypes.STRING(600),
+    Exemple: {
+        type: DataTypes.STRING(450),
         allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'Questionnaires',
+    modelName: 'Questions',
     timestamps: false
 });
-Questionnaires.belongsToMany(Questions, {
+Question.belongsToMany(Questionnaires, {
     through: 'QuestionQuestionnaire',
-    foreignKey: 'IdQuestionnaire'
+    foreignKey: 'IdQuestion'
 });
 
-
-module.exports = Questionnaires;
+module.exports = Question;

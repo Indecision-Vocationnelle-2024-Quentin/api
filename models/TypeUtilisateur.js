@@ -1,32 +1,27 @@
-// models/Facteurs.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 
-class Facteurs extends Model {}
+class TypeUtilisateur extends Model {}
 
-Facteurs.init({
-    IdFacteur: {
+TypeUtilisateur.init({
+    IdTypeUtilisateur: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    Lettre: {
-        type: DataTypes.CHAR(1),
-        allowNull: false
-    },
-    Nom: {
-        type: DataTypes.STRING(50),
+    Type: {
+        type: DataTypes.STRING(75),
         allowNull: false,
         unique: true
     },
     Description: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'Facteurs',
+    modelName: 'TypeUtilisateurs',
     timestamps: false
 });
 
-module.exports = Facteurs;
+module.exports = TypeUtilisateur;

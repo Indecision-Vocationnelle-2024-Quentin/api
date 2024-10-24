@@ -1,16 +1,16 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 
-class TypeUtilisateurs extends Model {}
+class TypeQuestion extends Model {}
 
-TypeUtilisateurs.init({
-    IdTypeUtilisateur: {
+TypeQuestion.init({
+    IdTypeQuestion: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
     Type: {
-        type: DataTypes.STRING(75),
+        type: DataTypes.STRING(25),
         allowNull: false,
         unique: true
     },
@@ -20,8 +20,8 @@ TypeUtilisateurs.init({
     }
 }, {
     sequelize,
-    modelName: 'TypeUtilisateurs',
+    modelName: 'TypeQuestions',
     timestamps: false
 });
 
-module.exports = TypeUtilisateurs;
+module.exports = TypeQuestion;

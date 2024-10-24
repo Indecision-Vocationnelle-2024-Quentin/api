@@ -1,10 +1,9 @@
-// models/TypeQuestionnaires.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 
-class TypeQuestionnaires extends Model {}
+class TypeQuestionnaire extends Model {}
 
-TypeQuestionnaires.init({
+TypeQuestionnaire.init({
     IdTypeQuestionnaire: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -25,4 +24,4 @@ TypeQuestionnaires.init({
     timestamps: false
 });
 
-module.exports = TypeQuestionnaires;
+module.exports = TypeQuestionnaire;

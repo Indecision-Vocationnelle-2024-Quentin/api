@@ -1,11 +1,11 @@
-// models/Ressources.js
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+const Utilisateur = require('./Utilisateur');
 
-class Ressources extends Model {}
+class Action extends Model {}
 
-Ressources.init({
-    IdRessource: {
+Action.init({
+    IdAction: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -14,15 +14,19 @@ Ressources.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    Ressource: {
-        type: DataTypes.STRING(400),
+    Action: {
+        type: DataTypes.STRING(300),
         allowNull: false,
-        unique : true
+        unique:true
     }
 }, {
     sequelize,
-    modelName: 'Ressources',
+    modelName: 'Actions',
     timestamps: false
 });
+Action.belongToMany(Utilisateur,{
+    through: 'ActionUtilisateur',
+    foreignKey: 'IdAction'
+});
 
-module.exports = Ressources;
+module.exports = Action;
