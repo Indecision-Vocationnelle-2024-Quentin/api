@@ -1,7 +1,6 @@
 const Utilisateur = require('../models/Utilisateur');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 const jwtUtil = require('../utils/jwtUtil');
 
 
@@ -12,14 +11,6 @@ app.use(express.json());
 
 function sanitizeField(field) {
     return validator.escape(field);
-}
-
-function generateUserId(email) {
-    const JWT_SIGN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-    const hash = crypto.createHmac('sha256', JWT_SIGN_SECRET)
-        .update(email)
-        .digest('hex');
-    return hash;
 }
 
 // methodes ...
@@ -90,7 +81,7 @@ exports.register = async function (req, res) {
             Prenom: prenom,
             Courriel: email.toLowerCase(),
             MotDePasse: encryptedUserPassword,
-            IdAuthorisation: 1
+            IdAuthorisation: 1 //Utilisateur
         });
 
         return res.status(201).json(nouvelUtilisateur);
