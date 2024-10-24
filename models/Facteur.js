@@ -1,5 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+const Action = require ('./Action');
+const Ressource = require ('./Ressource');
+const Question = require ('./Question');
 
 class Facteur extends Model {}
 
@@ -27,5 +30,12 @@ Facteur.init({
     modelName: 'Facteurs',
     timestamps: false
 });
+
+//Se trouve plusieur fois dans la table Ressources
+Facteur.hasMany(Ressource,{foreignKey: 'IdFacteur'});
+//Se trouve plusieur fois dans la table Action
+Facteur.hasMany(Action,{foreignKey: 'IdFacteur'});
+//Se trouve plusieur fois dans la table Question
+Facteur.hasMany(Question,{foreignKey: 'IdFacteur'});
 
 module.exports = Facteur;

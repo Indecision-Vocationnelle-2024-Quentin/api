@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 const Utilisateur = require('./Utilisateur');
+const Questionnaire = require('./Questionnaire');
 
 class Action extends Model {}
 
@@ -24,9 +25,21 @@ Action.init({
     modelName: 'Actions',
     timestamps: false
 });
-Action.belongToMany(Utilisateur,{
+
+//Relation ManyToMany avec Utilisateur
+Action.belongsToMany(Utilisateur,{
     through: 'ActionUtilisateur',
     foreignKey: 'IdAction'
 });
+//Relation ManyToMany avec Questionnaire
+Action.belongsToMany(Questionnaire,{
+    through: 'ActionQuestionnaire',
+    foreignKey: 'IdAction'
+});
+
+//Relation OneToMany avec TypeQuestion
+Action.belongsTo(TypeQuestion,{foreignKey:'IdTypeUtilisateur'});
+//Relation OneToMany avec Facteur
+Action.belongsTo(Facteur,{foreignKey:'IdFacteur'});
 
 module.exports = Action;
