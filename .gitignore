@@ -129,4 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-testAPI_Auth.http
+
+#Dossier dev
+.dev/
