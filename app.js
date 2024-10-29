@@ -5,6 +5,7 @@ const express = require('express');
 const PORT = process.env.PORT;
 const cors = require('cors')
 const mongoose = require('mongoose');
+require('./models/models.js');
 
 
 const app = express ();

@@ -11,15 +11,24 @@
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @version     1.0
- * @date        26/10/2024
+ * @requires    Action  Modele des Actions
+ * @see         Actions.js
  * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @requires    Questionnaire  Modele des Questionnaire
+ * @see         Questionnaire.js
+ * 
+ * @version     1.0
+ * @created        26/10/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+
+const Action = require('./Action');
+const Questionnaire = require('./Questionnaire');
 
 class ActionQuestionnaire extends Model { }
 
@@ -47,6 +56,15 @@ ActionQuestionnaire.init({
             fields: ['IdAction', 'IdQuestionnaire']
         }
     ]
+});
+//Relation ManyToMany entre Action et Questionnaire
+Action.belongsToMany(Questionnaire, {
+    through: 'ActionQuestionnaire',
+    foreignKey: 'IdAction'
+});
+Questionnaire.belongsToMany(Action, {
+    through: 'ActionQuestionnaire',
+    foreignKey: 'IdQuestionnaire'
 });
 
 module.exports = ActionQuestionnaire;

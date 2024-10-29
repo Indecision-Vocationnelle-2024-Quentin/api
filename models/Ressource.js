@@ -6,24 +6,17 @@
  * @summary     Modèle de données représentant une ressource, utilisé pour gérer les enregistrements dans la table SQL associée
  * 
  * @description Classe Sequelize pour l'entité 'Ressource' dans la base de données SQL.
- *              Ce modèle définit les attributs principaux d'une ressource ainsi que les relations
- *              ManyToMany et OneToMany avec d'autres entités comme Utilisateur, Questionnaire, et Facteur.
+ *              Ce modèle définit les attributs principaux d'une ressource.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Utilisateur  Modèle Sequelize pour la table des utilisateurs
- * @see         Utilisateur.js
+ * @version     1.1
+ * @created  26/10/2024
  * 
- * @requires    Questionnaire  Modèle Sequelize pour la table des questionnaires
- * @see         Questionnaire.js
+ * @updated  29/20/2024
+ * @details      Voir associations.js
  * 
- * @requires    Facteur      Modèle Sequelize pour la table des facteurs
- * @see         Facteur.js
- * 
- * @version     1.0
- * @date        26/10/2024
- * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
@@ -53,20 +46,8 @@ Ressource.init({
     }
 }, {
     sequelize,
-    modelName: 'Ressources',
+    modelName: 'Ressource',
     timestamps: false
 });
 
-//Relation ManyToMany avec Questionnaire
-Ressource.belongsToMany(Questionnaire, {
-    through: 'RessourceQuestionnaire',
-    foreignKey: 'IdRessource'
-});
-//Relation ManyToMany avec Utilisateur
-Ressource.belongsToMany(Utilisateur, {
-    through: 'RessourceUtilisateur',
-    foreignKey: 'IdRessource'
-});
-//Relation OneToMnay avec les facteurs
-Ressource.belongsTo(Facteur, { foreignKey: 'IdFacteur' });
 module.exports = Ressource;

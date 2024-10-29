@@ -11,15 +11,24 @@
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @version     1.0
- * @date        26/10/2024
+ * @requires    Ressource  Modele des Ressources
+ * @see         Ressource.js
  * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @requires    Utilisateur  Modele des Utilisateurs
+ * @see         Utilisateur.js
+ * 
+ * @version     1.0
+ * @created        26/10/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+
+const Ressource = require('./Ressource');
+const Utilisateur = require('./Utilisateur');
 
 class RessourceUtilisateur extends Model { }
 
@@ -52,5 +61,13 @@ RessourceUtilisateur.init({
         }
     ]
 });
-
+//Relation ManyToMany entre Ressource et Utilisateur
+Ressource.belongsToMany(Utilisateur, {
+    through: 'RessourceUtilisateur',
+    foreignKey: 'IdRessource'
+});
+Utilisateur.belongsToMany(Ressource, {
+    through: 'RessourceUtilisateur',
+    foreignKey: 'IdUtilisateur'
+});
 module.exports = RessourceUtilisateur;

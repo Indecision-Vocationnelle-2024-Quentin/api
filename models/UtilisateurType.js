@@ -1,24 +1,27 @@
 /**
- * @file QuestionUtilisateur.js
+ * @file UtilisateurType.js
  * 
- * @class       QuestionUtilisateur
+ * @class       UtilisateurType
  * @extends     Model
- * @summary     Modèle de données représentant la table de relation entre une question et un utilisateur,
+ * @summary     Modèle de données représentant la table de relation entre un utilisateur et son type,
  *              utilisé pour gérer les enregistrements dans la table SQL associée
  * 
- * @description Classe Sequelize pour l'entité 'QuestionUtilisateur' dans la base de données SQL.
+ * @description Classe Sequelize pour l'entité 'UtilisateurType' dans la base de données SQL.
  *              Ce modèle définit les attributs principaux de la relation.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Question  Modele des Questions
- * @see         Question.js
+ * @requires    TypeUtilisateur  Modele des TypeUtilisateurs
+ * @see         TypeUtilisateur.js
  * 
  * @requires    Utilisateur  Modele des Utilisateurs
  * @see         Utilisateur.js
  * 
- * @version     1.0
- * @created        26/10/2024
+ * @version     2.1
+ * @created  26/10/2024
+ * 
+ * @updated  29/20/2024
+ * @details      Changement de nom (trop long)
  * 
  * @property   Cégep de Rivière-du-Loup
  * 
@@ -27,49 +30,44 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
 
-const Question = require('./Question');
 const Utilisateur = require('./Utilisateur');
+const TypeUtilisateur = require('./TypeUtilisateur');
 
-class QuestionUtilisateur extends Model { }
+class UtilisateurType extends Model { }
 
-QuestionUtilisateur.init({
-    IdQuestionReponse: {
+UtilisateurType.init({
+    IdUtilisateurType: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    IdQuestion: {
+    IdTypeUtilisateur: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
     IdUtilisateur: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
-    Reponse: {
-        type: DataTypes.STRING(400),
-        allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'QuestionUtilisateur',
+    modelName: 'UtilisateurType',
     timestamps: false,
     indexes: [
         {
             unique: true,
-            fields: ['IdQuestion', 'IdUtilisateur']
+            fields:['IdTypeUtilisateur', 'IdUtilisateur']
         }
     ]
 });
-//Relation ManyToMany entre Question et Utilisateur
-Question.belongsToMany(Utilisateur, {
-    through: 'QuestionUtilisateur',
-    foreignKey: 'IdQuestion'
-});
-Utilisateur.belongsToMany(Question, {
-    through: 'QuestionUtilisateur',
+//Relation ManyToMany entre Ressource et Questionnaire
+Utilisateur.belongsToMany(TypeUtilisateur, {
+    through: 'UtilisateurType',
     foreignKey: 'IdUtilisateur'
 });
+TypeUtilisateur.belongsToMany(Utilisateur, {
+    through: 'UtilisateurType',
+    foreignKey: 'IdTypeUtilisateur'
+});
 
-
-module.exports = QuestionUtilisateur;
+module.exports = UtilisateurType;

@@ -7,25 +7,22 @@
  *              utilisé pour gérer les enregistrements dans la table SQL associée
  * 
  * @description Classe Sequelize pour l'entité 'TypeAuthorisation' dans la base de données SQL.
- *              Ce modèle définit les attributs principaux d'un type d'authorisation ainsi que la relation
- *              OneToMany avec l'entité Utilisateur.
+ *              Ce modèle définit les attributs principaux d'un type d'authorisation.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Utilisateur Modèle Sequelize pour la table des utilisateurs
- * @see         Utilisateur.js
+ * @version     1.1
+ * @created  26/10/2024
  * 
- * @version     1.0
- * @date        26/10/2024
+ * @updated  29/20/2024
+ * @details      Voir associations.js
  * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
-
-const Utilisateur = require('./Utilisateur');
 
 class TypeAuthorisation extends Model { }
 
@@ -49,6 +46,5 @@ TypeAuthorisation.init({
     modelName: 'TypeAuthorisation',
     timestamps: false
 });
-//Relation OneToMany avec Utilisateur (un utilisateur à un seul type d'authorisation)
-TypeAuthorisation.hasMany(Utilisateur, { foreignKey: 'IdAuthorisation' });
+
 module.exports = TypeAuthorisation;

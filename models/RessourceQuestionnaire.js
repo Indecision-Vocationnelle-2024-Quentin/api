@@ -11,15 +11,24 @@
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @version     1.0
- * @date        26/10/2024
+ * @requires    Ressource  Modele des Ressources
+ * @see         Ressource.js
  * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @requires    Questionnaire  Modele des Questionnaire
+ * @see         Questionnaire.js
+ * 
+ * @version     1.0
+ * @created        26/10/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+
+const Ressource = require('./Ressource');
+const Questionnaire = require('./Questionnaire');
 
 class RessourceQuestionnaire extends Model { }
 
@@ -47,6 +56,15 @@ RessourceQuestionnaire.init({
             fields: ['IdRessource', 'IdQuestionnaire']
         }
     ]
+});
+//Relation ManyToMany entre Ressource et Questionnaire
+Ressource.belongsToMany(Questionnaire, {
+    through: 'RessourceQuestionnaire',
+    foreignKey: 'IdRessource'
+});
+Questionnaire.belongsToMany(Ressource, {
+    through: 'RessourceQuestionnaire',
+    foreignKey: 'IdQuestionnaire'
 });
 
 module.exports = RessourceQuestionnaire;

@@ -11,15 +11,24 @@
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @version     1.0
- * @date        26/10/2024
+ * @requires    Action  Modele des Actions
+ * @see         Actions.js
  * 
- * @propriete   Cégep de Rivière-du-Loup
+ * @requires    Utilisateur  Modele des Utilisateurs
+ * @see         Utilisateur.js
+ * 
+ * @version     1.0
+ * @created        26/10/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
  * 
  * @author      Quentin Lecourt
  */
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/server');
+
+const Action = require('./Action');
+const Utilisateur = require('./Utilisateur');
 
 class ActionUtilisateur extends Model { }
 
@@ -51,6 +60,15 @@ ActionUtilisateur.init({
             fields: ['IdAction', 'IdUtilisateur']
         }
     ]
+});
+//Relation ManyToMany Entre Action et Utilisateur
+Action.belongsToMany(Utilisateur, {
+    through: 'ActionUtilisateur',
+    foreignKey: 'IdAction'
+});
+Utilisateur.belongsToMany(Action, {
+    through: 'ActionUtilisateur',
+    foreignKey: 'IdUtilisateur'
 });
 
 module.exports = ActionUtilisateur;
