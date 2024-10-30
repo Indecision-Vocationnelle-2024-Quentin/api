@@ -53,7 +53,7 @@ QuestionUtilisateur.init({
 }, {
     sequelize,
     modelName: 'QuestionUtilisateur',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

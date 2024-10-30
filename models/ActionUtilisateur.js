@@ -53,7 +53,7 @@ ActionUtilisateur.init({
 }, {
     sequelize,
     modelName: 'ActionUtilisateur',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

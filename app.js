@@ -1,6 +1,6 @@
 // SOURCE : https://blog.postman.com/how-to-create-a-rest-api-with-node-js-and-express/
 // https://www.mongodb.com/languages/express-mongodb-rest-api-tutorial
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT;
 const cors = require('cors')

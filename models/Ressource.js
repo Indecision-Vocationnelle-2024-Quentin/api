@@ -46,8 +46,8 @@ Ressource.init({
     }
 }, {
     sequelize,
-    modelName: 'Ressource',
-    timestamps: false
+    modelName: 'Ressource'
+    
 });
 
 module.exports = Ressource;

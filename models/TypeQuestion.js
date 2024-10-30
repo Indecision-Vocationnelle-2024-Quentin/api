@@ -43,8 +43,8 @@ TypeQuestion.init({
     }
 }, {
     sequelize,
-    modelName: 'TypeQuestion',
-    timestamps: false
+    modelName: 'TypeQuestion'
+    
 });
 
 

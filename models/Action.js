@@ -42,8 +42,8 @@ Action.init({
     }
 }, {
     sequelize,
-    modelName: 'Action',
-    timestamps: false
+    modelName: 'Action'
+    
 });
 
 module.exports = Action;

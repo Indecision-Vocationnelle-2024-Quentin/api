@@ -52,7 +52,7 @@ UtilisateurType.init({
 }, {
     sequelize,
     modelName: 'UtilisateurType',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

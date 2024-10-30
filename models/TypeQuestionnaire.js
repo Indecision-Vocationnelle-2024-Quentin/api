@@ -43,7 +43,7 @@ TypeQuestionnaire.init({
     }
 }, {
     sequelize,
-    modelName: 'TypeQuestionnaire',
-    timestamps: false
+    modelName: 'TypeQuestionnaire'
+    
 });
 module.exports = TypeQuestionnaire;

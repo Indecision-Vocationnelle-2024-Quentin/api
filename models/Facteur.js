@@ -46,8 +46,8 @@ Facteur.init({
     }
 }, {
     sequelize,
-    modelName: 'Facteur',
-    timestamps: false
+    modelName: 'Facteur'
+    
 });
 
 module.exports = Facteur;

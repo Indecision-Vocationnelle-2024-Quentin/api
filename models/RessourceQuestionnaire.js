@@ -49,7 +49,7 @@ RessourceQuestionnaire.init({
 }, {
     sequelize,
     modelName: 'RessourceQuestionnaire',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

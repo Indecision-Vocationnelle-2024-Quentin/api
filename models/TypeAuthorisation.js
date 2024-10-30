@@ -43,8 +43,8 @@ TypeAuthorisation.init({
     }
 }, {
     sequelize,
-    modelName: 'TypeAuthorisation',
-    timestamps: false
+    modelName: 'TypeAuthorisation'
+    
 });
 
 module.exports = TypeAuthorisation;

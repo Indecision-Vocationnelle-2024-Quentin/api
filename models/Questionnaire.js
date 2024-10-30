@@ -46,8 +46,8 @@ Questionnaire.init({
     }
 }, {
     sequelize,
-    modelName: 'Questionnaire',
-    timestamps: false
+    modelName: 'Questionnaire'
+    
 });
 
 module.exports = Questionnaire;

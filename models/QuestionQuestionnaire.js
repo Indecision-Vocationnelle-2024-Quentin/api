@@ -49,7 +49,7 @@ QuestionQuestionnaire.init({
 }, {
     sequelize,
     modelName: 'QuestionQuestionnaire',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

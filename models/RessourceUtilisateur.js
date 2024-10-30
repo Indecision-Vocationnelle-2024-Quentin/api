@@ -53,7 +53,7 @@ RessourceUtilisateur.init({
 }, {
     sequelize,
     modelName: 'RessourceUtilisateur',
-    timestamps: false,
+    
     indexes: [
         {
             unique: true,

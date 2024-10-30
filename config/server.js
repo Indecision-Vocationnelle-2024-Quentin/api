@@ -1,13 +1,18 @@
 // server.js
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
 const sequelize = new Sequelize(
-    'indecision_vocationnelle_dev',
-    'test',
-    'RS55keNEy%raXNqJ#hDw>MzjgHX@md(TDeV=XkDF',
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PWRD,
     {
-        host: 'localhost',
-        dialect: 'mysql'
+        host: process.env.DB_HOST,
+        dialect: process.env.SGBD,
+        define : 
+        {
+            timestamps: false
+        }
     }
 );
 

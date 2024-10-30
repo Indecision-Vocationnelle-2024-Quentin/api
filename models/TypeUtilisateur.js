@@ -43,7 +43,7 @@ TypeUtilisateur.init({
     }
 }, {
     sequelize,
-    modelName: 'TypeUtilisateur',
-    timestamps: false
+    modelName: 'TypeUtilisateur'
+    
 });
 module.exports = TypeUtilisateur;
