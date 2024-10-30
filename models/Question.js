@@ -48,7 +48,7 @@ Question.init({
     },
     Exemple: {
         type: DataTypes.STRING(450),
-        allowNull: false
+        allowNull: true
     }
 }, {
     sequelize,

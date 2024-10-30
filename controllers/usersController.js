@@ -1,4 +1,5 @@
 const Utilisateur = require('../models/Utilisateur');
+const TypeAuthorisation = require('../models/TypeAuthorisation');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwtUtil = require('../utils/jwtUtil');
@@ -75,13 +76,16 @@ exports.register = async function (req, res) {
         if (utilisateurExiste) {
             return res.status(409).send({ message: "Erreur lors de la création de l'usager. Veuillez reesayer." });
         }
-
+        const AUTHORISATION_USER = await TypeAuthorisation.findOne({
+            where: {Type:"Utilisateur"},
+            attributes: ['IdTypeAuthorisation']
+        });
         const nouvelUtilisateur = await Utilisateur.create({
             Nom: nom,
             Prenom: prenom,
             Courriel: email.toLowerCase(),
             MotDePasse: encryptedUserPassword,
-            IdAuthorisation: 1 //Utilisateur
+            IdAuthorisation: AUTHORISATION_USER.IdTypeAuthorisation //Utilisateur
         });
 
         return res.status(201).json(nouvelUtilisateur);
