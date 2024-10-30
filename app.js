@@ -15,13 +15,10 @@ app.use(cors());
 // mongoose.connect(process.env.DB_URL);
 
 const usersRoutes = require('./routes/userRoute');
-// const questionnaireMonChoixProgrammeRoutes = require('./routes/question_monChoixRoute.js');
-// const questionnaireMonProgrammeEtudesRoutes = require('./routes/question_monProgrammeRoute.js');
-// const questionnaireMoyensPourReussirRoutes = require('./routes/question_moyenReussirRoute.js');
+const questionnaireVraiOuFauxRoutes = require('./routes/questionnaireVraiOuFaux.route.js');
+
 app.use('/users', usersRoutes);
-// app.use('/questionnaire-mon-choix-programme',questionnaireMonChoixProgrammeRoutes );
-// app.use('/questionnaire-mon-programme-etudes',questionnaireMonProgrammeEtudesRoutes );
-// app.use('/questionnaire-moyens-pour-reussir',questionnaireMoyensPourReussirRoutes );
+app.use('./questionnaire-vrai-ou-faux', questionnaireVraiOuFauxRoutes);
 
 
 app.get("/", (request, response) => {
