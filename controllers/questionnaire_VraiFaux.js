@@ -7,7 +7,7 @@ const QuestionUtilisateur = require('../models/QuestionUtilisateur');
 var jwt = require("jsonwebtoken");
 
 
-exports.getQuestionsVraiFaux = async function (req, res) {
+exports.getQuestionsVraiFaux = async function (res) {
 
     try {
         const typeVraiOuFaux = await TypeQuestion.findOne({
@@ -59,11 +59,10 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
     try {
         //Récupération du token et extraction de l'information
         const userToken = req.headers.authorization.split(' ')[1];
-        console.log(userToken);
+
         const decodedToken = jwt.verify(userToken, process.env.ACCESS_TOKEN_SECRET);
-        console.log(decodedToken);
+
         const userEmail = decodedToken.email;
-        console.log(userEmail);
 
         const utilisateur = await Utilisateur.findOne({ where: { Courriel: userEmail } });
         if (!utilisateur) {
@@ -82,8 +81,8 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
 
         const questionVraiOuFauxSelonFacteur = await Question.findAll({
             attributes: ['IdQuestion', 'Question'],
-            where: { 
-                IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion 
+            where: {
+                IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion
             },
             include: [
                 {
@@ -122,7 +121,7 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
 
         const listeDesQuestionsVraiFauxDuFacteur = Object.values(questionDuFacteur);
 
-        res.json({ ListeDesQuestionsVraiFauxDuFacteur: listeDesQuestionsVraiFauxDuFacteur })
+        res.json({ ListeDesQuestionsVraiFauxDuFacteur: listeDesQuestionsVraiFauxDuFacteur });
 
 
     } catch (erreur) {
@@ -131,12 +130,68 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
     }
 };
 
-// exports.test = async function(req,res){
-//     const categorie = req.body.categorie;
+exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
+    try {
+        const laNouvelleReponse = req.body.reponse;
+        
+        if(laNouvelleReponse != "Vrai" && laNouvelleReponse != "Faux")
+        {
+            return res.status(500).json({erreur: "La valeur de la nouvelle reponse n'est pas conforme."})
+        }
+        //Récupération du token et extraction de l'information
+        const userToken = req.headers.authorization.split(' ')[1];
 
-//     let listeDesFacteurs = [];
-//     listeDesFacteurs = await FacteurController.getFacteursParCategorie(categorie);
-//     console.log(listeDesFacteurs);
-//     return res.json({laCategorie : categorie});
-//     Facteur.update
-// };
+        const decodedToken = jwt.verify(userToken, process.env.ACCESS_TOKEN_SECRET);
+
+        const userEmail = decodedToken.email;
+
+        const utilisateur = await Utilisateur.findOne({ where: { Courriel: userEmail } });
+        if (!utilisateur) {
+            return res.status(404).json({ error: "Nous rencontrons un problème." });
+        }
+
+        const typeVraiOuFaux = await TypeQuestion.findOne({
+            where: { Type: 'Vrai ou Faux' },
+            attributes: ['IdTypeQuestion']
+        });
+        if (!typeVraiOuFaux) {
+            return res.status(404).json({ error: "Nous rencontrons un problème lors de la récupération des questions, veuillez reessayer." });
+        }
+
+        const question = await Question.findOne({
+            where: { 
+                IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion,
+                 IdQuestion: req.body.idQuestion
+                 }
+        });
+        if (!question) {
+            return res.status(404).json({ error: "Question inéxistante ou incompatible." });
+        }
+
+        const [laReponse, created] = await QuestionUtilisateur.findOrCreate({
+            where: { 
+                IdQuestion: req.body.idQuestion,
+                 IdUtilisateur: utilisateur.UtilisateurId 
+                },
+            defaults: {
+                Reponse: laNouvelleReponse
+            }
+        });
+        if(!created)
+        {
+            laReponse.Reponse = laNouvelleReponse;
+            await laReponse.save();
+        }
+        return res.status(200).json({ 
+            message: created ? "Réponse enregistrée avec succès." : "Réponse mise à jour avec succès." 
+        });
+
+    }
+    catch (erreur) {
+        res.status(500).json({ erreur: "Imposible d'enregistrer cette nouvelle reponse." })
+    }
+};
+
+exports.obtenirResultat = async function (req, res) {
+  
+};
