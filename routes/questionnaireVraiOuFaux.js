@@ -4,7 +4,7 @@ const questionnaireController = require('../controllers/questionnaire_VraiFaux.j
 const middleware = require('../middlewares/auth.js');
 
 router.post('/obtenirQuestionsVraiouFaux', middleware.verifyTokenUser, questionnaireController.getQuestionsVraiFaux);
-router.post('/obtenirQuestionsVraiouFauxParType', questionnaireController.getQuestionsVraiFauxParType);
+router.post('/obtenirQuestionsVraiouFauxParType', middleware.verifyTokenUser, questionnaireController.getQuestionsVraiFauxParLettreFacteur);
 
 // router.post('/test', questionnaireController.test)
 

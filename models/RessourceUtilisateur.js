@@ -7,17 +7,10 @@
  *              utilisé pour gérer les enregistrements dans la table SQL associée
  * 
  * @description Classe Sequelize pour l'entité 'RessourceUtilisateur' dans la base de données SQL.
- *              Ce modèle définit les attributs principaux de la relation.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Ressource  Modele des Ressources
- * @see         Ressource.js
- * 
- * @requires    Utilisateur  Modele des Utilisateurs
- * @see         Utilisateur.js
- * 
- * @version     1.0
+ * @version     1.1
  * @created        26/10/2024
  * 
  * @property   Cégep de Rivière-du-Loup
@@ -61,13 +54,5 @@ RessourceUtilisateur.init({
         }
     ]
 });
-//Relation ManyToMany entre Ressource et Utilisateur
-Ressource.belongsToMany(Utilisateur, {
-    through: 'RessourceUtilisateur',
-    foreignKey: 'IdRessource'
-});
-Utilisateur.belongsToMany(Ressource, {
-    through: 'RessourceUtilisateur',
-    foreignKey: 'IdUtilisateur'
-});
+
 module.exports = RessourceUtilisateur;

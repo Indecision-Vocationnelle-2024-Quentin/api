@@ -7,17 +7,10 @@
  *              utilisé pour gérer les enregistrements dans la table SQL associée
  * 
  * @description Classe Sequelize pour l'entité 'QuestionQuestionnaire' dans la base de données SQL.
- *              Ce modèle définit les attributs principaux de la relation.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Question  Modele des Questions
- * @see         Question.js
- * 
- * @requires    Questionnaire  Modele des Questionnaire
- * @see         Questionnaire.js
- * 
- * @version     1.0
+ * @version     1.1
  * @created        26/10/2024
  * 
  * @property   Cégep de Rivière-du-Loup
@@ -57,14 +50,6 @@ QuestionQuestionnaire.init({
         }
     ]
 });
-//Relation ManyToMany entre Question et Questionnaires
-Question.belongsToMany(Questionnaire, {
-    through: 'QuestionQuestionnaire',
-    foreignKey: 'IdQuestion'
-});
-Questionnaire.belongsToMany(Question, {
-    through: 'QuestionQuestionnaire',
-    foreignKey: 'IdQuestionnaire'
-});
+
 
 module.exports = QuestionQuestionnaire;

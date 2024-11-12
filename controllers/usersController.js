@@ -113,9 +113,8 @@ exports.login = async function (req, res) {
         }
 
         const utilisateur = await Utilisateur.findOne({ where: { Courriel: email.toLowerCase() } });
-
         if (utilisateur && (await bcrypt.compare(password, utilisateur.MotDePasse))) {
-            const bearerToken = jwtUtil.generateAccessToken(utilisateur.email);
+            const bearerToken = jwtUtil.generateAccessToken(utilisateur.Courriel);
             res.json({ bearerToken });
         } else {
             res.status(400).send({ message: "Courriel ou mot de passe invalide" });

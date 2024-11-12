@@ -22,17 +22,7 @@ const TypeQuestionnaire = require('./TypeQuestionnaire');
 const TypeUtilisateur = require('./TypeUtilisateur');
 const Utilisateur = require('./Utilisateur');
 
-//Table de jointure
-const ActionQuestionnaire = require('./ActionQuestionnaire');
-const ActionUtilisateur = require('./ActionUtilisateur');
 
-const QuestionQuestionnaire = require('./QuestionQuestionnaire');
-const QuestionUtilisateur = require('./QuestionUtilisateur');
-
-const RessourceQuestionnaire = require('./RessourceQuestionnaire');
-const RessourceUtilisateur = require('./RessourceUtilisateur');
-
-const UtilisateurType = require('./UtilisateurType');
 
 // Associe les modèles entre eux
 require('./associations');

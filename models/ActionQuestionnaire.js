@@ -7,17 +7,10 @@
  *              utilisé pour gérer les enregistrements dans la table SQL associée
  * 
  * @description Classe Sequelize pour l'entité 'ActionQuestionnaire' dans la base de données SQL.
- *              Ce modèle définit les attributs principaux de la relation.
  * 
  * @requires    sequelize   Gestion de la connexion et des transactions avec la base de données
  * 
- * @requires    Action  Modele des Actions
- * @see         Actions.js
- * 
- * @requires    Questionnaire  Modele des Questionnaire
- * @see         Questionnaire.js
- * 
- * @version     1.0
+ * @version     1.1
  * @created        26/10/2024
  * 
  * @property   Cégep de Rivière-du-Loup
@@ -57,14 +50,6 @@ ActionQuestionnaire.init({
         }
     ]
 });
-//Relation ManyToMany entre Action et Questionnaire
-Action.belongsToMany(Questionnaire, {
-    through: 'ActionQuestionnaire',
-    foreignKey: 'IdAction'
-});
-Questionnaire.belongsToMany(Action, {
-    through: 'ActionQuestionnaire',
-    foreignKey: 'IdQuestionnaire'
-});
+
 
 module.exports = ActionQuestionnaire;

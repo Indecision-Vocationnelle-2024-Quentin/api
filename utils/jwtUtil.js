@@ -6,7 +6,7 @@ const TOKEN_EXPIRE = process.env.BEARER_TOKEN_EXPIRE;
 module.exports = {
   generateAccessToken: function (email) {
     return jwt.sign({ email: email }, JWT_SIGN_SECRET, {
-      expiresIn: TOKEN_EXPIRE,  
+      expiresIn: TOKEN_EXPIRE  
     });
   },
   generateAppToken: function (user) {
