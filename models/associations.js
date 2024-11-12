@@ -17,9 +17,9 @@
  * @requires & @see   Action.js             Modèle pour les actions disponibles dans l'application.
  * @requires & @see   Question.js           Modèle pour les questions des différents questionnaires.
  * 
- * @version     1.1
+ * @version     1.2
  * @created     29/10/2024
- * @update      12/11/2024 -> Relation des tables de jointures 
+ * @update      12/11/2024 -> Relation des tables de jointures hasMany et belongTo (plus de Many-To-Many)
  * 
  * @details     - Relation OneToMany entre `TypeAuthorisation` et `Utilisateur`
  *              - Relation OneToMany entre `TypeQuestion` et `Question`
@@ -95,66 +95,84 @@ Questionnaire.belongsToMany(Action, {
     foreignKey: 'IdQuestionnaire'
 });
 
-//Relation ManyToMany Entre Action et Utilisateur
-Action.belongsToMany(Utilisateur, {
-    through: 'ActionUtilisateur',
-    foreignKey: 'IdAction'
-});
-Utilisateur.belongsToMany(Action, {
-    through: 'ActionUtilisateur',
-    foreignKey: 'IdUtilisateur'
-});
-
-//Relation ManyToMany entre Question et Questionnaires
-Question.belongsToMany(Questionnaire, {
-    through: 'QuestionQuestionnaire',
+// Association Question-QuestionUtilisateur
+Question.hasMany(QuestionUtilisateur, {
     foreignKey: 'IdQuestion'
 });
-Questionnaire.belongsToMany(Question, {
-    through: 'QuestionQuestionnaire',
-    foreignKey: 'IdQuestionnaire'
+QuestionUtilisateur.belongsTo(Question, {
+    foreignKey: 'IdQuestion'
+});
+// Action et Utilisateur via ActionUtilisateur
+Action.hasMany(ActionUtilisateur, {
+    foreignKey: 'IdAction'
+});
+ActionUtilisateur.belongsTo(Action, {
+    foreignKey: 'IdAction'
 });
 
-// Relation Many-to-Many entre Question et Utilisateur via la table 'QuestionUtilisateur'
-Question.belongsToMany(Utilisateur, {
-    through: 'QuestionUtilisateur',
-    foreignKey: 'IdQuestion',
-    otherKey: 'IdUtilisateur'  // Définir explicitement la clé étrangère de l'autre modèle
+Utilisateur.hasMany(ActionUtilisateur, {
+    foreignKey: 'IdUtilisateur'
 });
-
-Utilisateur.belongsToMany(Question, {
-    through: 'QuestionUtilisateur',
-    foreignKey: 'IdUtilisateur',
-    otherKey: 'IdQuestion'  // Définir explicitement la clé étrangère de l'autre modèle
-});
-
-//Relation ManyToMany entre Ressource et Questionnaire
-Ressource.belongsToMany(Questionnaire, {
-    through: 'RessourceQuestionnaire',
-    foreignKey: 'IdRessource'
-});
-Questionnaire.belongsToMany(Ressource, {
-    through: 'RessourceQuestionnaire',
-    foreignKey: 'IdQuestionnaire'
-});
-
-//Relation ManyToMany entre Ressource et Utilisateur
-Ressource.belongsToMany(Utilisateur, {
-    through: 'RessourceUtilisateur',
-    foreignKey: 'IdRessource'
-});
-Utilisateur.belongsToMany(Ressource, {
-    through: 'RessourceUtilisateur',
+ActionUtilisateur.belongsTo(Utilisateur, {
     foreignKey: 'IdUtilisateur'
 });
 
-//Relation ManyToMany entre Ressource et Questionnaire
-Utilisateur.belongsToMany(TypeUtilisateur, {
-    through: 'UtilisateurType',
+// Question et Questionnaire via QuestionQuestionnaire
+Question.hasMany(QuestionQuestionnaire, {
+    foreignKey: 'IdQuestion'
+});
+QuestionQuestionnaire.belongsTo(Question, {
+    foreignKey: 'IdQuestion'
+});
+
+Questionnaire.hasMany(QuestionQuestionnaire, {
+    foreignKey: 'IdQuestionnaire'
+});
+QuestionQuestionnaire.belongsTo(Questionnaire, {
+    foreignKey: 'IdQuestionnaire'
+});
+
+// Ressource et Questionnaire via RessourceQuestionnaire
+Ressource.hasMany(RessourceQuestionnaire, {
+    foreignKey: 'IdRessource'
+});
+RessourceQuestionnaire.belongsTo(Ressource, {
+    foreignKey: 'IdRessource'
+});
+
+Questionnaire.hasMany(RessourceQuestionnaire, {
+    foreignKey: 'IdQuestionnaire'
+});
+RessourceQuestionnaire.belongsTo(Questionnaire, {
+    foreignKey: 'IdQuestionnaire'
+});
+
+// Ressource et Utilisateur via RessourceUtilisateur
+Ressource.hasMany(RessourceUtilisateur, {
+    foreignKey: 'IdRessource'
+});
+RessourceUtilisateur.belongsTo(Ressource, {
+    foreignKey: 'IdRessource'
+});
+
+Utilisateur.hasMany(RessourceUtilisateur, {
     foreignKey: 'IdUtilisateur'
 });
-TypeUtilisateur.belongsToMany(Utilisateur, {
-    through: 'UtilisateurType',
+RessourceUtilisateur.belongsTo(Utilisateur, {
+    foreignKey: 'IdUtilisateur'
+});
+
+// Utilisateur et TypeUtilisateur via UtilisateurType
+Utilisateur.hasMany(UtilisateurType, {
+    foreignKey: 'IdUtilisateur'
+});
+UtilisateurType.belongsTo(Utilisateur, {
+    foreignKey: 'IdUtilisateur'
+});
+
+TypeUtilisateur.hasMany(UtilisateurType, {
     foreignKey: 'IdTypeUtilisateur'
 });
-
+UtilisateurType.belongsTo(TypeUtilisateur, {
+    foreignKey: 'IdTypeUtilisateur'
+});

@@ -66,8 +66,7 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
         console.log(userEmail);
 
         const utilisateur = await Utilisateur.findOne({ where: { Courriel: userEmail } });
-        if (!utilisateur) 
-        {
+        if (!utilisateur) {
             return res.status(404).json({ error: "Nous rencontrons un problème." });
         }
 
@@ -82,19 +81,22 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
         };
 
         const questionVraiOuFauxSelonFacteur = await Question.findAll({
-            where: { IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion },
+            attributes: ['IdQuestion', 'Question'],
+            where: { 
+                IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion 
+            },
             include: [
                 {
                     model: Facteur,
+                    required: true,  // INNER JOIN
                     where: { Lettre: req.body.lettreFacteur },
-                    required: true,
                     attributes: ['Lettre', 'Nom', 'Description']
                 },
                 {
-                    model: Utilisateur,
-                    required: false, //LEFT JOIN
-                    where: { UtilisateurId: utilisateur.UtilisateurId },
-                    through: { attributes: ['Reponse'] }  // Récupérez la réponse via l'attribut through
+                    model: QuestionUtilisateur,
+                    required: false,  // LEFT JOIN
+                    where: { IdUtilisateur: utilisateur.UtilisateurId },
+                    attributes: ['Reponse']
                 }
             ]
         });
@@ -109,10 +111,12 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
                 questionDuFacteur[Lettre] = { Lettre, Nom, Description, question: [] };
             }
 
+            const [questionUtilisateur] = question.QuestionUtilisateurs || [];
+
             questionDuFacteur[Lettre].question.push({
                 idQuestion: question.IdQuestion,
                 question: question.Question,
-                reponse: question?.Reponse || null
+                reponse: questionUtilisateur?.Reponse || null
             });
         });
 
