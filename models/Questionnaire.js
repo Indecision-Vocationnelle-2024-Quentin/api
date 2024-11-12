@@ -37,8 +37,7 @@ Questionnaire.init({
     },
     Titre: {
         type: DataTypes.STRING(100),
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     Description: {
         type: DataTypes.STRING(600),
