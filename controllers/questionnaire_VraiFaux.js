@@ -133,10 +133,9 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
 exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
     try {
         const laNouvelleReponse = req.body.reponse;
-        
-        if(laNouvelleReponse != "Vrai" && laNouvelleReponse != "Faux")
-        {
-            return res.status(500).json({erreur: "La valeur de la nouvelle reponse n'est pas conforme."})
+
+        if (laNouvelleReponse != "Vrai" && laNouvelleReponse != "Faux") {
+            return res.status(500).json({ erreur: "La valeur de la nouvelle reponse n'est pas conforme." })
         }
         //Récupération du token et extraction de l'information
         const userToken = req.headers.authorization.split(' ')[1];
@@ -159,31 +158,30 @@ exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
         }
 
         const question = await Question.findOne({
-            where: { 
+            where: {
                 IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion,
-                 IdQuestion: req.body.idQuestion
-                 }
+                IdQuestion: req.body.idQuestion
+            }
         });
         if (!question) {
             return res.status(404).json({ error: "Question inéxistante ou incompatible." });
         }
 
         const [laReponse, created] = await QuestionUtilisateur.findOrCreate({
-            where: { 
+            where: {
                 IdQuestion: req.body.idQuestion,
-                 IdUtilisateur: utilisateur.UtilisateurId 
-                },
+                IdUtilisateur: utilisateur.UtilisateurId
+            },
             defaults: {
                 Reponse: laNouvelleReponse
             }
         });
-        if(!created)
-        {
+        if (!created) {
             laReponse.Reponse = laNouvelleReponse;
             await laReponse.save();
         }
-        return res.status(200).json({ 
-            message: created ? "Réponse enregistrée avec succès." : "Réponse mise à jour avec succès." 
+        return res.status(200).json({
+            message: created ? "Réponse enregistrée avec succès." : "Réponse mise à jour avec succès."
         });
 
     }
@@ -193,5 +191,5 @@ exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
 };
 
 exports.obtenirResultat = async function (req, res) {
-  
+
 };
