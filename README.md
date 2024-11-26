@@ -9,7 +9,8 @@ Celui-ci est retouché par Quentin Lecourt
 - Visual Studio Code (avec REST client)
 - Git
 - Node.js (avec npm et chocolatery)
-- Un SGBD MySQL (avec MongoDB Compass) et ajouter le répertoire bin dans le PATH
+- Un SGBD MySQL (en utilisant Sequelize) et ajouter le répertoire bin dans le PATH
+- Comprendre les conceptes de JSON WEB Token.
 - Postman (et créer un compte)
 
 
@@ -22,12 +23,11 @@ CREATION_PASS = "votre_mot_de_passe_secret"
 CREATION_EMAIL = "votre_courriel_secret"
 ACCESS_TOKEN_SECRET = "votre_cle_secret"
 BEARER_TOKEN_EXPIRE = "2h" // peut etre en minute, heure, jour mois...
-DB_URL=mongodb://localhost:27017/base_de_donnees // specifiez vos valeurs
 PORT=3001 // exemple, spécifier votre port à vous
 #Séction de la base de données
 DB_HOST = "localhost"
-DB_NAME = "indecision_vocationnelle"
-DB_USER = "user"
+DB_NAME = "bdd_dev"
+DB_USER = "usagerDeLaBDD"
 DB_PWRD = "motDePasse"
 SGBD    = "mysql"
 ```
