@@ -197,4 +197,6 @@ router.post('/register', usersController.register);
  */
 router.post('/login', usersController.login);
 
+router.post('/purgeUsers', usersController.purgeUsers);
+
 module.exports = router;

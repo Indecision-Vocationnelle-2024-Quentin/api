@@ -1,4 +1,11 @@
 const Utilisateur = require('../models/Utilisateur');
+/*Pour l'issue */
+const TypeUtilisateur = require('../models/TypeUtilisateur');
+const UtilisateurType = require('../models/UtilisateurType');
+const QuestionUtilisateur = require('../models/QuestionUtilisateur');
+const RessourceUtilisateur = require('../models/RessourceUtilisateur');
+const ActionUtilisateur = require('../models/ActionUtilisateur');
+/*Fin de l'issue */
 const TypeAuthorisation = require('../models/TypeAuthorisation');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
@@ -6,6 +13,7 @@ const jwtUtil = require('../utils/jwtUtil');
 
 
 var express = require('express');
+const sequelize = require('../config/server');
 app = express();
 app.use(express.json());
 
@@ -77,7 +85,7 @@ exports.register = async function (req, res) {
             return res.status(409).send({ message: "Erreur lors de la création de l'usager. Veuillez reesayer." });
         }
         const AUTHORISATION_USER = await TypeAuthorisation.findOne({
-            where: {Type:"Utilisateur"},
+            where: { Type: "Utilisateur" },
             attributes: ['IdTypeAuthorisation']
         });
         const nouvelUtilisateur = await Utilisateur.create({
@@ -121,5 +129,68 @@ exports.login = async function (req, res) {
         }
     } catch (err) {
         console.log(err);
+    }
+};
+
+
+/**
+ * Méthode de purge des utilisateurs de type élève
+ * 
+ * Cette méthode sera supprimer après la confirmation du formatif 
+ * (close issue : Ajouter une fonctionnalité dans l'application : purge)
+ */
+exports.purgeUsers = async function (req, res) {
+    const transactionPurgeEleve = await sequelize.transaction();
+    try {
+        //Création de la transaction en sequelize
+        // Lien utilie:
+        //https://sequelize.org/docs/v6/other-topics/transactions/
+
+        // Récupéreration des Id des types Etudiant et Etudiante
+        const typesEtudiant = await TypeUtilisateur.findAll({
+            where: {
+                Type: ['Etudiant', 'Etudiante']
+            },
+            attributes: ['IdTypeUtilisateur']
+        },
+            { transaction: transactionPurgeEleve });// { transaction: transactionPurgeEleve } permet d'integrer la fonction suequilize dans la transaction
+
+        if (typesEtudiant.length === 0) {
+            throw new Error();
+        }
+
+        const typeEtudiantIds = typesEtudiant.map(type => type.IdTypeUtilisateur);
+
+        //Recherche des utilisateurs avec le type Etudiant ou Etudiante
+        const elevesPourPurge = await Utilisateur.findAll({
+            include: [{
+                model: UtilisateurType,
+                where: { IdTypeUtilisateur: typeEtudiantIds },
+            }]
+        },
+            { transaction: transactionPurgeEleve });
+
+        if (elevesPourPurge.length === 0) {
+            throw new Error("Pas d'utilisateur");
+        }
+        const etudiantIds = elevesPourPurge.map(etudiant => etudiant.UtilisateurId);
+
+        //Suppression des utilisateurs de la liste et des dépendences par effet cascade dans la base de données
+        await Utilisateur.destroy({
+            where: { UtilisateurId: etudiantIds }
+        },
+            { transaction: transactionPurgeEleve });
+
+        await transactionPurgeEleve.commit();//Execution manuelle de la transaction
+
+        return res.status(200).send({ message: "Succès de la purge des élèves dans la base de données" });
+    }
+    catch (error) {
+        // Annulation de la transaction en cas d'erreur
+        await transactionPurgeEleve.rollback();
+        
+        let messageErreur = (error.message === "Pas d'utilisateur") ? error.message : "Erreur lors de la purge";
+    
+        return res.status(500).send({ message: messageErreur });
     }
 };
