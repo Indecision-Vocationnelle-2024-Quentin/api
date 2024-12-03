@@ -7,7 +7,7 @@ const QuestionUtilisateur = require('../models/QuestionUtilisateur');
 var jwt = require("jsonwebtoken");
 
 
-exports.getQuestionsVraiFaux = async function (res) {
+exports.getQuestionsVraiFaux = async function (req, res) {
 
     try {
         const typeVraiOuFaux = await TypeQuestion.findOne({
@@ -46,7 +46,7 @@ exports.getQuestionsVraiFaux = async function (res) {
 
         const listeQuestionVraiOuFaux = Object.values(questionParFacteur);
 
-        res.json({ facteurs: listeQuestionVraiOuFaux });
+        res.status(200).json({ facteurs: listeQuestionVraiOuFaux });
 
     } catch (erreur) {
         console.log(erreur);
