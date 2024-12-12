@@ -190,6 +190,3 @@ exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
     }
 };
 
-exports.obtenirResultat = async function (req, res) {
-
-};
