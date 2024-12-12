@@ -6,7 +6,6 @@ const middleware = require('../middlewares/auth.js');
 router.post('/obtenirQuestionsVraiouFaux', middleware.verifyTokenUser, questionnaireController.getQuestionsVraiFaux);
 router.post('/obtenirQuestionsVraiouFauxParType', middleware.verifyTokenUser, questionnaireController.getQuestionsVraiFauxParLettreFacteur);
 router.post('/nouvelleReponseQuestionVraiFaux', middleware.verifyTokenUser, questionnaireController.nouvelleReponseQuestionVraiFaux);
-router.get('/obtenirDetailsQuestionnaire',  questionnaireController.obtenirDetailsQuestionnaire);
 
 // router.post('/test', questionnaireController.test)
 

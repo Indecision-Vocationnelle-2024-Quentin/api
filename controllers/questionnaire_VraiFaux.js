@@ -3,6 +3,8 @@ const Question = require('../models/Question');
 const Facteur = require('../models/Facteur');
 const Utilisateur = require('../models/Utilisateur');
 const QuestionUtilisateur = require('../models/QuestionUtilisateur');
+const Questionnaire = require('../models/Questionnaire');
+const TypeQuestionnaire = require('../models/TypeQuestionnaire');
 
 var jwt = require("jsonwebtoken");
 
@@ -35,12 +37,12 @@ exports.getQuestionsVraiFaux = async function (req, res) {
             const { Lettre, Nom, Description } = unFacteur
             //Groupement par lettre de facteur
             if (!questionParFacteur[Lettre]) {
-                questionParFacteur[Lettre] = { Lettre, Nom, Description, questions: [] };
+                questionParFacteur[Lettre] = { Lettre, Nom, Description, Questions: [] };
             }
 
-            questionParFacteur[Lettre].questions.push({
-                id: question.IdQuestion,
-                question: question.Question
+            questionParFacteur[Lettre].Questions.push({
+                Id: question.IdQuestion,
+                Question: question.Question
             });
         });
 
@@ -54,11 +56,64 @@ exports.getQuestionsVraiFaux = async function (req, res) {
     }
 };
 
+//Méthode qui permet d'obtenir les détails d'un formulaire, comme le nom de ce formulaire, sa description ainsi que la liste de ces facteurs
+exports.obtenirDetailsQuestionnaire = async function (req, res) {
+    try {
+
+        const categorieQuestionnaireVraiFaux = await TypeQuestionnaire.findOne({
+            where: { Type: 'Facteurs indécision étudiant' },
+            attributes: ['IdTypeQuestionnaire']
+        });
+
+        const questionnaireVraiFaux = await Questionnaire.findOne({
+            where: { IdTypeQuestionnaire: categorieQuestionnaireVraiFaux.IdTypeQuestionnaire }
+        });
+
+        const { IdQuestionnaire, Titre, Description } = questionnaireVraiFaux;
+        const detailsQuestionnaireVraiFaux = { IdQuestionnaire, Titre, Description, listeFacteur: [] };
+        console.log(detailsQuestionnaireVraiFaux);
+        const typeVraiOuFaux = await TypeQuestion.findOne({
+            where: { Type: 'Vrai ou Faux' },
+            attributes: ['IdTypeQuestion']
+        });
+
+        if (!typeVraiOuFaux) {
+            return res.status(404).json({ error: "Nous rencontrons un problème lors de la récupération du questionnaire, veuillez reessayer." });
+        }
+        //Récupération des questions avec le facteur lié
+        const listeDesFacteurs = await Facteur.findAll({
+            attributes: ['Lettre'],
+            include: [
+                {
+                    model: Question,
+                    where: { IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion },
+                    attributes: [],
+                    required:true
+                }
+            ]            
+        });
+        console.log(listeDesFacteurs);
+        listeDesFacteurs.forEach(facteur => {
+            detailsQuestionnaireVraiFaux.listeFacteur.push({
+                Lettre: facteur.Lettre
+            });
+        });
+        const objet = Object.values(detailsQuestionnaireVraiFaux);
+        res.status(200).json({ detailsQuestionnaireVraiFaux });
+    }
+    catch (erreur) {
+        console.log(erreur);
+        res.status(500).json({ Message: "Nous rencontrons un problème lors de la récupération du questionnaire, veuillez reessayer." });
+    }
+};
+
 
 exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
     try {
         //Récupération du token et extraction de l'information
         const userToken = req.headers.authorization.split(' ')[1];
+
+        const laLettre = req.body.lettreFacteur;
 
         const decodedToken = jwt.verify(userToken, process.env.ACCESS_TOKEN_SECRET);
 
@@ -88,7 +143,7 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
                 {
                     model: Facteur,
                     required: true,  // INNER JOIN
-                    where: { Lettre: req.body.lettreFacteur },
+                    where: { Lettre: laLettre },
                     attributes: ['Lettre', 'Nom', 'Description']
                 },
                 {
@@ -107,15 +162,15 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
 
             //Regroupement
             if (!questionDuFacteur[Lettre]) {
-                questionDuFacteur[Lettre] = { Lettre, Nom, Description, question: [] };
+                questionDuFacteur[Lettre] = { Lettre, Nom, Description, Questions: [] };
             }
 
             const [questionUtilisateur] = question.QuestionUtilisateurs || [];
 
-            questionDuFacteur[Lettre].question.push({
-                idQuestion: question.IdQuestion,
-                question: question.Question,
-                reponse: questionUtilisateur?.Reponse || null
+            questionDuFacteur[Lettre].Questions.push({
+                IdQuestion: question.IdQuestion,
+                Question: question.Question,
+                Reponse: questionUtilisateur?.Reponse || null
             });
         });
 
@@ -190,3 +245,6 @@ exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
     }
 };
 
+exports.obtenirResultat = async function (req, res) {
+
+};
