@@ -1,3 +1,27 @@
+/**
+ * @file        questionnaire_VraiFaux.js
+ * @summary     Controlleur du formulaire vrai ou faux pour le choix de programme
+ * 
+ * @description Controlleur principale des questions, réponses, titre et description du formulaire vrai ou faux
+ * 
+ * @requires    TypeQuestion
+ * @requires    Quentin
+ * @requires    Facteur
+ * @requires    Utilisateur
+ * @requires    QuestionUtilisateur
+ * @requires    Questionnaire
+ * @requires    TypeQuestionnaire
+ * @requires    jwt
+ * 
+ * @version     1.5
+ * @created     10/10/2024
+ * 
+ * @updated     29/11/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
+ * 
+ * @author      Quentin Lecourt
+ */
 const TypeQuestion = require('../models/TypeQuestion');
 const Question = require('../models/Question');
 const Facteur = require('../models/Facteur');
@@ -8,7 +32,28 @@ const TypeQuestionnaire = require('../models/TypeQuestionnaire');
 
 var jwt = require("jsonwebtoken");
 
-
+/**
+ * @name    getQuestionsVraiFaux
+ * 
+ * @description Permet de checher dans la base de données les questions par facteurs, avec le détails du facteur
+ * 
+ * @param {*} res 
+ * @returns JSON 
+ * "facteurs": [
+        {
+            "Lettre": "I",
+            "Nom": "...",
+            "Description": "...",
+            "Questions": [
+                {
+                    "Id": 1,
+                    "Question": "..."
+                },
+                ...
+            ]
+        },
+        ...
+ */
 exports.getQuestionsVraiFaux = async function (req, res) {
 
     try {
@@ -88,9 +133,9 @@ exports.obtenirDetailsQuestionnaire = async function (req, res) {
                     model: Question,
                     where: { IdTypeQuestion: typeVraiOuFaux.IdTypeQuestion },
                     attributes: [],
-                    required:true
+                    required: true
                 }
-            ]            
+            ]
         });
         console.log(listeDesFacteurs);
         listeDesFacteurs.forEach(facteur => {
@@ -107,7 +152,25 @@ exports.obtenirDetailsQuestionnaire = async function (req, res) {
     }
 };
 
-
+/**
+ * @name    getQuestionsVraiFauxParLettreFacteur
+ * 
+ * @description Permet de checher dans la base de données les questions d'un facteur en particulier
+ * 
+ * @param {body.lettreFacteur, bearerToken} req
+ * @param {404, 500, 200} res 
+ * @returns JSON 
+        {
+            "Lettre": "I",
+            "Nom": "...",
+            "Description": "...",
+            "Questions": [
+                {
+                    "Id": 1,
+                    "Question": "..."
+                },
+                ...
+ */
 exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
     try {
         //Récupération du token et extraction de l'information
@@ -185,6 +248,15 @@ exports.getQuestionsVraiFauxParLettreFacteur = async function (req, res) {
     }
 };
 
+/**
+ * @name    nouvelleReponseQuestionVraiFaux
+ * 
+ * @description Permet de changer la réponse d'une questions d'un utilisateur
+ * 
+ * @param {body.reponse, bearerToken} req 
+ * @param {500, 404, 200} res 
+ * @returns 
+ */
 exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
     try {
         const laNouvelleReponse = req.body.reponse;
@@ -245,6 +317,3 @@ exports.nouvelleReponseQuestionVraiFaux = async function (req, res) {
     }
 };
 
-exports.obtenirResultat = async function (req, res) {
-
-};

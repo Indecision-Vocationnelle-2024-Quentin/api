@@ -1,3 +1,24 @@
+/**
+ * @file usersController.js
+ * @summary     Controlleur des utilisateurs
+ * 
+ * @description Controlleur principale des utiliateur
+ * 
+ * @requires    Utilisateur
+ * @requires    TypeAuthorisation
+ * @requires    validator
+ * @requires    bcrypt
+ * @requires    jwtUtil
+ * 
+ * @version     1.2
+ * @created     Depuis Rino Gamache
+ * 
+ * @updated     19/11/2024
+ * 
+ * @property   Cégep de Rivière-du-Loup
+ * 
+ * @author      Quentin Lecourt
+ */
 const Utilisateur = require('../models/Utilisateur');
 const TypeAuthorisation = require('../models/TypeAuthorisation');
 const validator = require('validator');
@@ -14,7 +35,15 @@ function sanitizeField(field) {
     return validator.escape(field);
 }
 
-// methodes ...
+/**
+ * @name    getAppToken
+ * 
+ * @description Permet d'obtenir le token de généré par l'API pour qu'une application puiise la consulter
+ * 
+ * @param   {body.email, body.pass} req 
+ * @param   {200, 400, 401} res 
+ * @returns AppToken ou 401,400 si echec
+ */
 exports.getAppToken = async function (req, res) {
     console.log("user/getAppToken");
 
@@ -38,7 +67,16 @@ exports.getAppToken = async function (req, res) {
     res.status(200).json({ AppToken: accessToken });
 };
 
-
+/**
+ * @name    register
+ * 
+ * @description Permet d'enregistrer un nouvel utilisateur dans la base de données
+ *              Filtre et vérifie le contenu des arguments de la requête
+ * 
+ * @param {nom, prenom, email, password, appKey} req.body
+ * @param {400, 401, 209, 201, 500} res 
+ * @returns Resultat de la méthode
+ */
 exports.register = async function (req, res) {
     try {
         const { nom, prenom, email, password, appKey } = req.body;
@@ -77,7 +115,7 @@ exports.register = async function (req, res) {
             return res.status(409).send({ message: "Erreur lors de la création de l'usager. Veuillez reesayer." });
         }
         const AUTHORISATION_USER = await TypeAuthorisation.findOne({
-            where: {Type:"Utilisateur"},
+            where: { Type: "Utilisateur" },
             attributes: ['IdTypeAuthorisation']
         });
         const nouvelUtilisateur = await Utilisateur.create({
@@ -95,6 +133,15 @@ exports.register = async function (req, res) {
     }
 };
 
+/**
+ * @name    login
+ * 
+ * @description Permet l'authentification et la distribution d'un token à cet effet
+ * 
+ * @param {nom, password} req.body
+ * @param {400, bearerToken} res 
+ * @returns bearerToken qui est le token d'authentification valide pour un temps x
+ */
 exports.login = async function (req, res) {
     try {
         const { email, password } = req.body;
