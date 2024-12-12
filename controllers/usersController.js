@@ -123,3 +123,49 @@ exports.login = async function (req, res) {
         console.log(err);
     }
 };
+
+/**
+ * Méthode de purge de l'utilisateur conncté
+ * 
+ */
+exports.purgeUser = async function (req, res) {
+    const transactionPurgeEleve = await sequelize.transaction();
+    try {
+        //Création de la transaction en sequelize
+        // Lien utilie:
+        //https://sequelize.org/docs/v6/other-topics/transactions/
+
+        //Récupération du token et extraction de l'information
+        const userToken = req.headers.authorization.split(' ')[1];
+
+        const decodedToken = jwt.verify(userToken, process.env.ACCESS_TOKEN_SECRET);
+        const userEmail = decodedToken.email;
+
+        //On trouve l'utilisateur dans la BDD et on en créé un objet Sequelize
+        const utilisateurPurge = await Utilisateur.findOne({
+             where: { Courriel: userEmail },
+             },
+             { transaction: transactionPurgeEleve }
+            );
+        if (!utilisateurPurge) {
+            return res.status(404).json({ error: "Nous rencontrons un problème." });
+        }
+
+        //On détruit l'objet sequelize et sa corespondance dans la BDD, 
+        //Donc suppression de l'utilisateur et des ses dépendances
+        await utilisateurPurge.destroy({ transaction: transactionPurgeEleve });
+
+
+        await transactionPurgeEleve.commit();//Execution manuelle de la transaction
+
+        return res.status(200).send({ message: "Succès de la purge de l'élèves dans la base de données" });
+    }
+    catch (error) {
+        // Annulation de la transaction en cas d'erreur
+        await transactionPurgeEleve.rollback();
+        
+        let messageErreur = "Erreur lors de la purge";
+    
+        return res.status(500).send({ message: messageErreur });
+    }
+};
